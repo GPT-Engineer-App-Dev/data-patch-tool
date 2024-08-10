@@ -94,7 +94,7 @@ const GoogleSheetsClone = () => {
 
   return (
     <div className="container mx-auto p-4 bg-white shadow-lg rounded-lg">
-      <div className="mb-4 flex space-x-2 bg-gray-100 p-2 rounded-md">
+      <div className="mb-4 flex space-x-2 bg-gray-50 p-2 rounded-md">
         <Button onClick={addRow} variant="outline" className="bg-white hover:bg-gray-100">
           <Plus className="h-4 w-4 mr-2" />
           Add Row
@@ -118,19 +118,19 @@ const GoogleSheetsClone = () => {
           style={{ display: 'none' }}
           accept=".csv"
         />
-        <Button onClick={() => applyStyle({ fontWeight: 'bold' })} variant="outline" className="bg-white hover:bg-gray-100">
+        <Button onClick={() => applyStyle({ fontWeight: 'bold' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
           <Bold className="h-4 w-4" />
         </Button>
-        <Button onClick={() => applyStyle({ fontStyle: 'italic' })} variant="outline" className="bg-white hover:bg-gray-100">
+        <Button onClick={() => applyStyle({ fontStyle: 'italic' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
           <Italic className="h-4 w-4" />
         </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'left' })} variant="outline" className="bg-white hover:bg-gray-100">
+        <Button onClick={() => applyStyle({ textAlign: 'left' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
           <AlignLeft className="h-4 w-4" />
         </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'center' })} variant="outline" className="bg-white hover:bg-gray-100">
+        <Button onClick={() => applyStyle({ textAlign: 'center' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
           <AlignCenter className="h-4 w-4" />
         </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'right' })} variant="outline" className="bg-white hover:bg-gray-100">
+        <Button onClick={() => applyStyle({ textAlign: 'right' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
           <AlignRight className="h-4 w-4" />
         </Button>
       </div>
@@ -138,10 +138,10 @@ const GoogleSheetsClone = () => {
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50">
-              <TableHead className="w-12"></TableHead>
-              {data[0].map((_, index) => (
-                <TableHead key={index} className="bg-gray-50 text-gray-500 font-semibold text-center w-24">
-                  {ALPHABET[index]}
+              <TableHead className="w-12 bg-white"></TableHead>
+              {ALPHABET.split('').map((letter, index) => (
+                <TableHead key={index} className="bg-gray-50 text-gray-500 font-normal text-center w-24 border-b border-gray-200">
+                  {letter}
                 </TableHead>
               ))}
             </TableRow>
@@ -149,9 +149,9 @@ const GoogleSheetsClone = () => {
           <TableBody>
             {data.map((row, rowIndex) => (
               <TableRow key={rowIndex} className="hover:bg-gray-50">
-                <TableCell className="font-semibold text-gray-500 text-center bg-gray-50">{rowIndex + 1}</TableCell>
+                <TableCell className="font-normal text-gray-500 text-center bg-gray-50 border-r border-gray-200">{rowIndex + 1}</TableCell>
                 {row.map((cell, colIndex) => (
-                  <TableCell key={colIndex} className="p-0">
+                  <TableCell key={colIndex} className="p-0 border border-gray-200">
                     <Input
                       value={cell.value}
                       onChange={(e) => handleCellChange(rowIndex, colIndex, e.target.value)}
