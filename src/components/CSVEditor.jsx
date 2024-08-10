@@ -58,7 +58,7 @@ const CSVEditor = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">CSV Editor</h1>
+      <h1 className="text-2xl font-bold mb-4">CSV Data Manager</h1>
       <div className="mb-4">
         <Input type="file" accept=".csv" onChange={handleFileUpload} />
       </div>
