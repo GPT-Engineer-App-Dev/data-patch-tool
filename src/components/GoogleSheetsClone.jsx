@@ -93,22 +93,21 @@ const GoogleSheetsClone = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Enhanced Google Sheets Clone</h1>
-      <div className="mb-4 flex space-x-2">
-        <Button onClick={addRow}>
+    <div className="container mx-auto p-4 bg-white shadow-lg rounded-lg">
+      <div className="mb-4 flex space-x-2 bg-gray-100 p-2 rounded-md">
+        <Button onClick={addRow} variant="outline" className="bg-white hover:bg-gray-100">
           <Plus className="h-4 w-4 mr-2" />
           Add Row
         </Button>
-        <Button onClick={addColumn}>
+        <Button onClick={addColumn} variant="outline" className="bg-white hover:bg-gray-100">
           <Plus className="h-4 w-4 mr-2" />
           Add Column
         </Button>
-        <Button onClick={downloadCSV}>
+        <Button onClick={downloadCSV} variant="outline" className="bg-white hover:bg-gray-100">
           <Download className="h-4 w-4 mr-2" />
           Download CSV
         </Button>
-        <Button onClick={() => fileInputRef.current.click()}>
+        <Button onClick={() => fileInputRef.current.click()} variant="outline" className="bg-white hover:bg-gray-100">
           <Upload className="h-4 w-4 mr-2" />
           Upload CSV
         </Button>
@@ -119,46 +118,49 @@ const GoogleSheetsClone = () => {
           style={{ display: 'none' }}
           accept=".csv"
         />
-        <Button onClick={() => applyStyle({ fontWeight: 'bold' })}>
+        <Button onClick={() => applyStyle({ fontWeight: 'bold' })} variant="outline" className="bg-white hover:bg-gray-100">
           <Bold className="h-4 w-4" />
         </Button>
-        <Button onClick={() => applyStyle({ fontStyle: 'italic' })}>
+        <Button onClick={() => applyStyle({ fontStyle: 'italic' })} variant="outline" className="bg-white hover:bg-gray-100">
           <Italic className="h-4 w-4" />
         </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'left' })}>
+        <Button onClick={() => applyStyle({ textAlign: 'left' })} variant="outline" className="bg-white hover:bg-gray-100">
           <AlignLeft className="h-4 w-4" />
         </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'center' })}>
+        <Button onClick={() => applyStyle({ textAlign: 'center' })} variant="outline" className="bg-white hover:bg-gray-100">
           <AlignCenter className="h-4 w-4" />
         </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'right' })}>
+        <Button onClick={() => applyStyle({ textAlign: 'right' })} variant="outline" className="bg-white hover:bg-gray-100">
           <AlignRight className="h-4 w-4" />
         </Button>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto border border-gray-200 rounded-lg">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead></TableHead>
+            <TableRow className="bg-gray-50">
+              <TableHead className="w-12"></TableHead>
               {data[0].map((_, index) => (
-                <TableHead key={index}>{ALPHABET[index]}</TableHead>
+                <TableHead key={index} className="bg-gray-50 text-gray-500 font-semibold text-center w-24">
+                  {ALPHABET[index]}
+                </TableHead>
               ))}
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                <TableCell>{rowIndex + 1}</TableCell>
+              <TableRow key={rowIndex} className="hover:bg-gray-50">
+                <TableCell className="font-semibold text-gray-500 text-center bg-gray-50">{rowIndex + 1}</TableCell>
                 {row.map((cell, colIndex) => (
-                  <TableCell key={colIndex} style={cell.style}>
+                  <TableCell key={colIndex} className="p-0">
                     <Input
                       value={cell.value}
                       onChange={(e) => handleCellChange(rowIndex, colIndex, e.target.value)}
                       onFocus={() => setSelectedCell([rowIndex, colIndex])}
-                      className="w-full"
+                      className="w-full h-full border-none focus:ring-2 focus:ring-blue-500"
+                      style={cell.style}
                     />
                     {cell.value.startsWith('=') && (
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-gray-500 absolute bottom-0 right-0 pr-1">
                         {renderCellValue(cell, rowIndex, colIndex)}
                       </div>
                     )}
