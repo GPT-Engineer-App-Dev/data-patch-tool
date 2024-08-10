@@ -7,7 +7,7 @@ import {
   ChevronDown, Bold, Italic, Underline, 
   AlignLeft, AlignCenter, AlignRight, 
   List, ListOrdered, IndentIncrease, IndentDecrease,
-  Link2, Image, Functions
+  Link2, Image, Calculator
 } from "lucide-react";
 
 const Toolbar = ({ addRow, addColumn, downloadCSV, uploadCSV, applyStyle }) => {
@@ -42,7 +42,7 @@ const Toolbar = ({ addRow, addColumn, downloadCSV, uploadCSV, applyStyle }) => {
       <div className="h-4 w-px bg-gray-300"></div>
       <Button variant="ghost" size="icon"><Link2 className="h-4 w-4" /></Button>
       <Button variant="ghost" size="icon"><Image className="h-4 w-4" /></Button>
-      <Button variant="ghost" size="icon"><Functions className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><Calculator className="h-4 w-4" /></Button>
     </div>
   );
 };
