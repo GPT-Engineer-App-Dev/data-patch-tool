@@ -1,54 +1,24 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
+import Toolbar from './Toolbar';
+import SpreadsheetTable from './SpreadsheetTable';
+import { useSpreadsheetData } from '../hooks/useSpreadsheetData';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Download, Upload, Bold, Italic, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
-import { evaluate } from 'mathjs';
-
-const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+import { Menu, Star, Share2, MessageCircle, HelpCircle, Settings, User } from 'lucide-react';
 
 const GoogleSheetsClone = () => {
-  const [data, setData] = useState([Array(26).fill({ value: '', style: {} }), Array(26).fill({ value: '', style: {} }), Array(26).fill({ value: '', style: {} })]);
-  const [selectedCell, setSelectedCell] = useState(null);
+  const {
+    data,
+    selectedCell,
+    setSelectedCell,
+    handleCellChange,
+    renderCellValue,
+    addRow,
+    addColumn,
+    applyStyle,
+  } = useSpreadsheetData();
+
   const fileInputRef = useRef(null);
-
-  const handleCellChange = useCallback((rowIndex, colIndex, value) => {
-    setData(prevData => {
-      const newData = [...prevData];
-      newData[rowIndex][colIndex] = { ...newData[rowIndex][colIndex], value };
-      return newData;
-    });
-  }, []);
-
-  const evaluateFormula = (formula, rowIndex, colIndex) => {
-    try {
-      const cellRegex = /([A-Z])(\d+)/g;
-      const evaluatedFormula = formula.replace(cellRegex, (match, col, row) => {
-        const colIndex = ALPHABET.indexOf(col);
-        const rowIndex = parseInt(row) - 1;
-        return data[rowIndex][colIndex].value;
-      });
-      return evaluate(evaluatedFormula);
-    } catch (error) {
-      console.error('Formula evaluation error:', error);
-      return '#ERROR';
-    }
-  };
-
-  const renderCellValue = (cell, rowIndex, colIndex) => {
-    if (cell.value.startsWith('=')) {
-      return evaluateFormula(cell.value.slice(1), rowIndex, colIndex);
-    }
-    return cell.value;
-  };
-
-  const addRow = () => {
-    setData(prevData => [...prevData, Array(prevData[0].length).fill({ value: '', style: {} })]);
-  };
-
-  const addColumn = () => {
-    setData(prevData => prevData.map(row => [...row, { value: '', style: {} }]));
-  };
 
   const downloadCSV = () => {
     const csvContent = data.map(row => row.map(cell => cell.value).join(',')).join('\n');
@@ -65,6 +35,10 @@ const GoogleSheetsClone = () => {
     }
   };
 
+  const uploadCSV = () => {
+    fileInputRef.current.click();
+  };
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -79,98 +53,61 @@ const GoogleSheetsClone = () => {
     reader.readAsText(file);
   };
 
-  const applyStyle = (style) => {
-    if (!selectedCell) return;
-    const [rowIndex, colIndex] = selectedCell;
-    setData(prevData => {
-      const newData = [...prevData];
-      newData[rowIndex][colIndex] = {
-        ...newData[rowIndex][colIndex],
-        style: { ...newData[rowIndex][colIndex].style, ...style }
-      };
-      return newData;
-    });
-  };
-
   return (
-    <div className="container mx-auto p-4 bg-white shadow-lg rounded-lg">
-      <div className="mb-4 flex space-x-2 bg-gray-50 p-2 rounded-md">
-        <Button onClick={addRow} variant="outline" className="bg-white hover:bg-gray-100">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Row
-        </Button>
-        <Button onClick={addColumn} variant="outline" className="bg-white hover:bg-gray-100">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Column
-        </Button>
-        <Button onClick={downloadCSV} variant="outline" className="bg-white hover:bg-gray-100">
-          <Download className="h-4 w-4 mr-2" />
-          Download CSV
-        </Button>
-        <Button onClick={() => fileInputRef.current.click()} variant="outline" className="bg-white hover:bg-gray-100">
-          <Upload className="h-4 w-4 mr-2" />
-          Upload CSV
-        </Button>
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileUpload}
-          style={{ display: 'none' }}
-          accept=".csv"
+    <div className="flex flex-col h-screen bg-white">
+      <header className="flex items-center justify-between px-4 py-2 border-b border-gray-200">
+        <div className="flex items-center space-x-4">
+          <Menu className="h-6 w-6 text-gray-500" />
+          <img src="/placeholder.svg" alt="Sheets" className="h-8 w-8" />
+          <div>
+            <Input 
+              value="Untitled spreadsheet" 
+              className="font-semibold text-lg border-none focus:ring-0"
+            />
+            <div className="flex space-x-2 text-sm text-gray-600">
+              <Button variant="ghost" size="sm" className="p-0 h-auto">File</Button>
+              <Button variant="ghost" size="sm" className="p-0 h-auto">Edit</Button>
+              <Button variant="ghost" size="sm" className="p-0 h-auto">View</Button>
+              <Button variant="ghost" size="sm" className="p-0 h-auto">Insert</Button>
+              <Button variant="ghost" size="sm" className="p-0 h-auto">Format</Button>
+              <Button variant="ghost" size="sm" className="p-0 h-auto">Data</Button>
+              <Button variant="ghost" size="sm" className="p-0 h-auto">Tools</Button>
+              <Button variant="ghost" size="sm" className="p-0 h-auto">Extensions</Button>
+              <Button variant="ghost" size="sm" className="p-0 h-auto">Help</Button>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Star className="h-6 w-6 text-gray-500" />
+          <Button variant="ghost" className="text-blue-600">
+            <MessageCircle className="h-4 w-4 mr-2" />
+            Share
+          </Button>
+          <User className="h-8 w-8 text-gray-500 bg-gray-200 rounded-full p-1" />
+        </div>
+      </header>
+      <Toolbar
+        addRow={addRow}
+        addColumn={addColumn}
+        downloadCSV={downloadCSV}
+        uploadCSV={uploadCSV}
+        applyStyle={applyStyle}
+      />
+      <div className="flex-grow overflow-auto">
+        <SpreadsheetTable
+          data={data}
+          handleCellChange={handleCellChange}
+          setSelectedCell={setSelectedCell}
+          renderCellValue={renderCellValue}
         />
-        <Button onClick={() => applyStyle({ fontWeight: 'bold' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-          <Bold className="h-4 w-4" />
-        </Button>
-        <Button onClick={() => applyStyle({ fontStyle: 'italic' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-          <Italic className="h-4 w-4" />
-        </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'left' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-          <AlignLeft className="h-4 w-4" />
-        </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'center' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-          <AlignCenter className="h-4 w-4" />
-        </Button>
-        <Button onClick={() => applyStyle({ textAlign: 'right' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-          <AlignRight className="h-4 w-4" />
-        </Button>
       </div>
-      <div className="overflow-x-auto border border-gray-200 rounded-lg">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-gray-50">
-              <TableHead className="w-12 bg-white"></TableHead>
-              {ALPHABET.split('').map((letter, index) => (
-                <TableHead key={index} className="bg-gray-50 text-gray-500 font-normal text-center w-24 border-b border-gray-200">
-                  {letter}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((row, rowIndex) => (
-              <TableRow key={rowIndex} className="hover:bg-gray-50">
-                <TableCell className="font-normal text-gray-500 text-center bg-gray-50 border-r border-gray-200">{rowIndex + 1}</TableCell>
-                {row.map((cell, colIndex) => (
-                  <TableCell key={colIndex} className="p-0 border border-gray-200">
-                    <Input
-                      value={cell.value}
-                      onChange={(e) => handleCellChange(rowIndex, colIndex, e.target.value)}
-                      onFocus={() => setSelectedCell([rowIndex, colIndex])}
-                      className="w-full h-full border-none focus:ring-2 focus:ring-blue-500"
-                      style={cell.style}
-                    />
-                    {cell.value.startsWith('=') && (
-                      <div className="text-xs text-gray-500 absolute bottom-0 right-0 pr-1">
-                        {renderCellValue(cell, rowIndex, colIndex)}
-                      </div>
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+        style={{ display: 'none' }}
+        accept=".csv"
+      />
     </div>
   );
 };

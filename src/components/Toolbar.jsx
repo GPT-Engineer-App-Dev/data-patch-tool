@@ -1,41 +1,49 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Plus, Download, Upload, Bold, Italic, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { 
+  Undo, Redo, Print, FormatPaintbrush, 
+  Percent, CurrencyDollar, MoreHorizontal, 
+  ChevronDown, Bold, Italic, Underline, 
+  AlignLeft, AlignCenter, AlignRight, 
+  List, ListOrdered, IndentIncrease, IndentDecrease,
+  Link2, Image, Functions
+} from "lucide-react";
 
 const Toolbar = ({ addRow, addColumn, downloadCSV, uploadCSV, applyStyle }) => {
   return (
-    <div className="mb-4 flex space-x-2 bg-gray-50 p-2 rounded-md">
-      <Button onClick={addRow} variant="outline" className="bg-white hover:bg-gray-100">
-        <Plus className="h-4 w-4 mr-2" />
-        Add Row
-      </Button>
-      <Button onClick={addColumn} variant="outline" className="bg-white hover:bg-gray-100">
-        <Plus className="h-4 w-4 mr-2" />
-        Add Column
-      </Button>
-      <Button onClick={downloadCSV} variant="outline" className="bg-white hover:bg-gray-100">
-        <Download className="h-4 w-4 mr-2" />
-        Download CSV
-      </Button>
-      <Button onClick={uploadCSV} variant="outline" className="bg-white hover:bg-gray-100">
-        <Upload className="h-4 w-4 mr-2" />
-        Upload CSV
-      </Button>
-      <Button onClick={() => applyStyle({ fontWeight: 'bold' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-        <Bold className="h-4 w-4" />
-      </Button>
-      <Button onClick={() => applyStyle({ fontStyle: 'italic' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-        <Italic className="h-4 w-4" />
-      </Button>
-      <Button onClick={() => applyStyle({ textAlign: 'left' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-        <AlignLeft className="h-4 w-4" />
-      </Button>
-      <Button onClick={() => applyStyle({ textAlign: 'center' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-        <AlignCenter className="h-4 w-4" />
-      </Button>
-      <Button onClick={() => applyStyle({ textAlign: 'right' })} variant="outline" className="bg-white hover:bg-gray-100 px-3">
-        <AlignRight className="h-4 w-4" />
-      </Button>
+    <div className="flex items-center space-x-2 p-1 border-b border-gray-200 bg-gray-100">
+      <Button variant="ghost" size="icon"><Undo className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><Redo className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><Print className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><FormatPaintbrush className="h-4 w-4" /></Button>
+      <select className="border-none bg-transparent text-sm">
+        <option>100%</option>
+      </select>
+      <select className="border-none bg-transparent font-sans text-sm">
+        <option>Arial</option>
+      </select>
+      <select className="border-none bg-transparent text-sm w-14">
+        <option>10</option>
+      </select>
+      <Button variant="ghost" size="icon"><Bold className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><Italic className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><Underline className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><CurrencyDollar className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><Percent className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button>
+      <div className="h-4 w-px bg-gray-300"></div>
+      <Button variant="ghost" size="icon"><AlignLeft className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><AlignCenter className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><AlignRight className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><List className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><ListOrdered className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><IndentDecrease className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><IndentIncrease className="h-4 w-4" /></Button>
+      <div className="h-4 w-px bg-gray-300"></div>
+      <Button variant="ghost" size="icon"><Link2 className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><Image className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><Functions className="h-4 w-4" /></Button>
     </div>
   );
 };

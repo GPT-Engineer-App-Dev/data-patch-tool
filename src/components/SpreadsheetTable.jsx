@@ -6,13 +6,13 @@ const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const SpreadsheetTable = ({ data, handleCellChange, setSelectedCell, renderCellValue }) => {
   return (
-    <div className="overflow-x-auto border border-gray-200 rounded-lg">
+    <div className="relative">
       <Table>
-        <TableHeader>
-          <TableRow className="bg-gray-50">
-            <TableHead className="w-12 bg-white"></TableHead>
+        <TableHeader className="sticky top-0 z-10 bg-gray-100">
+          <TableRow>
+            <TableHead className="w-10 bg-gray-100 border-b border-r border-gray-300"></TableHead>
             {ALPHABET.split('').map((letter, index) => (
-              <TableHead key={index} className="bg-gray-50 text-gray-500 font-normal text-center w-24 border-b border-gray-200">
+              <TableHead key={index} className="bg-gray-100 text-gray-700 font-normal text-center w-24 border-b border-r border-gray-300">
                 {letter}
               </TableHead>
             ))}
@@ -20,10 +20,12 @@ const SpreadsheetTable = ({ data, handleCellChange, setSelectedCell, renderCellV
         </TableHeader>
         <TableBody>
           {data.map((row, rowIndex) => (
-            <TableRow key={rowIndex} className="hover:bg-gray-50">
-              <TableCell className="font-normal text-gray-500 text-center bg-gray-50 border-r border-gray-200">{rowIndex + 1}</TableCell>
+            <TableRow key={rowIndex}>
+              <TableCell className="sticky left-0 z-20 font-normal text-gray-700 text-center bg-gray-100 border-r border-b border-gray-300">
+                {rowIndex + 1}
+              </TableCell>
               {row.map((cell, colIndex) => (
-                <TableCell key={colIndex} className="p-0 border border-gray-200">
+                <TableCell key={colIndex} className="p-0 border-r border-b border-gray-200">
                   <Input
                     value={cell.value}
                     onChange={(e) => handleCellChange(rowIndex, colIndex, e.target.value)}
