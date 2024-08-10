@@ -2,8 +2,8 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
-  Undo, Redo, Print, FormatPaintbrush, 
-  Percent, CurrencyDollar, MoreHorizontal, 
+  Undo, Redo, PaintBucket, 
+  Percent, DollarSign, MoreHorizontal, 
   ChevronDown, Bold, Italic, Underline, 
   AlignLeft, AlignCenter, AlignRight, 
   List, ListOrdered, IndentIncrease, IndentDecrease,
@@ -15,8 +15,7 @@ const Toolbar = ({ addRow, addColumn, downloadCSV, uploadCSV, applyStyle }) => {
     <div className="flex items-center space-x-2 p-1 border-b border-gray-200 bg-gray-100">
       <Button variant="ghost" size="icon"><Undo className="h-4 w-4" /></Button>
       <Button variant="ghost" size="icon"><Redo className="h-4 w-4" /></Button>
-      <Button variant="ghost" size="icon"><Print className="h-4 w-4" /></Button>
-      <Button variant="ghost" size="icon"><FormatPaintbrush className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><PaintBucket className="h-4 w-4" /></Button>
       <select className="border-none bg-transparent text-sm">
         <option>100%</option>
       </select>
@@ -29,7 +28,7 @@ const Toolbar = ({ addRow, addColumn, downloadCSV, uploadCSV, applyStyle }) => {
       <Button variant="ghost" size="icon"><Bold className="h-4 w-4" /></Button>
       <Button variant="ghost" size="icon"><Italic className="h-4 w-4" /></Button>
       <Button variant="ghost" size="icon"><Underline className="h-4 w-4" /></Button>
-      <Button variant="ghost" size="icon"><CurrencyDollar className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon"><DollarSign className="h-4 w-4" /></Button>
       <Button variant="ghost" size="icon"><Percent className="h-4 w-4" /></Button>
       <Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button>
       <div className="h-4 w-px bg-gray-300"></div>
